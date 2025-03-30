@@ -37,7 +37,7 @@ class CameraModal extends Modal {
 			type: "file",
 		});
 		filePicker.id = "filepicker";
-		filePicker.accept = "image/*,video/*";
+		filePicker.accept = "video/*";
 		filePicker.capture = "camera"; // back camera by default for mobile screens
 
 		filePicker.style.display = "none";
@@ -46,15 +46,44 @@ class CameraModal extends Modal {
 		label.textContent = "Upload";
 		label.style.cursor = "pointer";
 		label.style.display = "inline-block";
+		label.style.width = "120px";
 		label.style.margin = "5px 0px";
 		label.style.padding = "5px";
 		label.style.border = "0.5px solid #555";
 		label.htmlFor = "filepicker";
-		label.innerHTML = "&#8679; Upload";
+		label.innerHTML = "&#8679; Capture camera app VIDEO";
 
 		label.appendChild(filePicker);
 
 		secondRow.appendChild(label);
+
+
+		const filePicker2 = secondRow.createEl("input", {
+			placeholder: "Choose image file from system",
+			type: "file",
+		});
+		filePicker2.id = "filepicker2";
+		filePicker2.accept = "image/*";
+		filePicker2.capture = "camera"; // back camera by default for mobile screens
+
+		filePicker2.style.display = "none";
+
+		const label2 = secondRow.createEl("label");
+		label2.textContent = "Upload";
+		label2.style.cursor = "pointer";
+		label2.style.display = "inline-block";
+		label2.style.width = "120px";
+		label2.style.margin = "5px 0px";
+		label2.style.padding = "5px";
+		label2.style.border = "0.5px solid #555";
+		label2.htmlFor = "filepicker2";
+		label2.innerHTML = "&#8679; Capture camera app IMAGE";
+
+		label2.appendChild(filePicker2);
+
+		secondRow.appendChild(label2);
+
+
 
 		videoEl.autoplay = true;
 		videoEl.muted = true;
@@ -104,6 +133,14 @@ class CameraModal extends Modal {
 		filePicker.onchange = () => {
 			if (!filePicker.files?.length) return;
 			const selectedFile = filePicker.files[0];
+			label.textContent = `Selected: ${selectedFile.name}`;
+			const isImage = selectedFile.type.startsWith("image/");
+			handleImageSelectChange(selectedFile, isImage);
+		};
+
+		filePicker2.onchange = () => {
+			if (!filePicker2.files?.length) return;
+			const selectedFile = filePicker2.files[0];
 			label.textContent = `Selected: ${selectedFile.name}`;
 			const isImage = selectedFile.type.startsWith("image/");
 			handleImageSelectChange(selectedFile, isImage);
